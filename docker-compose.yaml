@@ -1,0 +1,15 @@
+version: "3"
+services:
+
+  ast:
+    build: ast
+    command: asterisk -vvvfp -U asterisk
+
+  ari:
+    build: ari
+    command: sh -c 'while true; do nc -z ast 8088 && break; sleep 1; done && node app.js'
+
+  sua:
+    build: sua
+    command: --registrar=ast --username=6001 --password=1234 sip:1000@ast
+
